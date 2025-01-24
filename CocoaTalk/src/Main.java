@@ -6,6 +6,7 @@ public class Main {
 		
 		// TODO Auto-generated method stub
 		System.out.println("준민");
+		System.out.println("??");
 	}
 
 }
