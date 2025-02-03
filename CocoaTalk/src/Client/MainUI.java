@@ -35,6 +35,7 @@ public class MainUI extends JFrame {
 		cardPanel.add(loginUI, "loginUI");
 		cardPanel.add(chatUI, "chatUI");
 		MainUI.this.add(cardPanel);
+		int x;
 	}
 
 	public void switchUI(String str) {
