@@ -17,7 +17,7 @@ public class LoginUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				mainUi.switchToChatUI();
+				mainUi.switchUI("chatUI");
 			}
 		});
 	}
