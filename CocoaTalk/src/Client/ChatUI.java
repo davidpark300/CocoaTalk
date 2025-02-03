@@ -9,3 +9,9 @@ public class ChatUI extends JPanel {
 		this.setBackground(Color.BLACK);
 	}
 }
+
+class ChatList extends JPanel {
+	public ChatList() {
+		
+	}
+}
