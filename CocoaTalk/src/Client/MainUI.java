@@ -36,5 +36,15 @@ public class MainUI extends JFrame {
 		cardPanel.add(chatUI, "chatUI");
 		MainUI.this.add(cardPanel);
 	}
-	
+
+	public void switchToLoginUI() {
+		CardLayout cl = (CardLayout) cardPanel.getLayout();
+		cl.show(cardPanel, "loginUI");
+	}
+
+	public void switchToChatUI() {
+		CardLayout cl = (CardLayout) cardPanel.getLayout();
+		cl.show(cardPanel, "chatUI");
+	}
+
 }
