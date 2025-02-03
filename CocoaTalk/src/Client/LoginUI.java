@@ -8,15 +8,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class LoginUI extends JPanel {
-	public LoginUI() {
+	public LoginUI(MainUI mainUi) {
 		this.setBackground(Color.YELLOW);
 		JButton jb = new JButton("하하");
+		add(jb);
 		jb.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				mainUi.switchToChatUI();
 			}
 		});
 	}

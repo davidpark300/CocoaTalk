@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 public class MainUI extends JFrame {
 
 	private JPanel cardPanel = new JPanel(new CardLayout());
-	private LoginUI loginUI = new LoginUI();
+	private LoginUI loginUI = new LoginUI(this);
 	private ChatUI chatUI = new ChatUI();
 
 	public MainUI() {
