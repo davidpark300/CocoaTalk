@@ -142,6 +142,14 @@ class ChatList extends JPanel {
 				}
 			}
 		});
+		panelList.addMouseListener(new MouseAdapter() {
+		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() ==2)
+					System.out.println("하하하");
+			}
+		});
 		panelList.addContainerListener(new ContainerListener() {
 			@Override
 			public void componentRemoved(ContainerEvent e) {
