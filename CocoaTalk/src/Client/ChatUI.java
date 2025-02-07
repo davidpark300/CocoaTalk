@@ -131,6 +131,8 @@ class Chatview extends JPanel {
         this.add(chatviewPanel, BorderLayout.CENTER);
         
         addText("홍성환", "안녕하세요.");
+        addText("박준민", "안녕못해요.");
+        addText("최성준", "안녕히가세요.");
     }
     
     public void addText(String id, String text) {
