@@ -1,5 +1,6 @@
 package Client;
 
+
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
