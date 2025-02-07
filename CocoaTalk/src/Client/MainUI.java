@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.CardLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -11,7 +12,7 @@ public class MainUI extends JFrame {
 
 	private JPanel cardPanel = new JPanel(new CardLayout());
 	private LoginUI loginUI = new LoginUI(this);
-	private ChatUI chatUI = new ChatUI();
+	private ChatUI chatUI = null;// = new ChatUI();
 
 	public MainUI() {
 		this.setTitle("코코아톡");
@@ -23,7 +24,7 @@ public class MainUI extends JFrame {
 		int x = (dim.width - dim2.width) / 2;
 		int y = (dim.height - dim2.height) / 2;
 		this.setLocation(x, y);
-
+		chatUI = new ChatUI(this.getHeight() - 40);
 		this.setLayout(new CardLayout());
 
 		setCardPanel();
