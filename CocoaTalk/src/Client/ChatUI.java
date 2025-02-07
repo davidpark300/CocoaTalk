@@ -15,6 +15,7 @@ public class ChatUI extends JPanel {
 
         chatview = new Chatview();
         scrollPane = new JScrollPane(chatview);
+        scrollPane.setBounds(250, 0, 520, 100);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -57,23 +58,18 @@ class Chatview extends JPanel {
         chatviewPanel = new JPanel();
         chatviewPanel.setLayout(new BoxLayout(chatviewPanel, BoxLayout.Y_AXIS));
         this.add(chatviewPanel, BorderLayout.CENTER);
+        
+        addText("홍성환", "안녕하세요.");
+    }
+    
+    public void addText(String id, String text) {
+    	JLabel name = new JLabel(id);
+    	JLabel msg = new JLabel(text);
+    	
+    	
+    	chatviewPanel.add(name);
+    	chatviewPanel.add(msg);
     }
 
-    public void getMessage(String id, String msg) {
-        JPanel messagePanel = new JPanel();
-        messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        messagePanel.setBackground(Color.LIGHT_GRAY);
-        messagePanel.setMaximumSize(new Dimension(580, 30));
-
-        JLabel chatterID = new JLabel(id + ": ");
-        JLabel chatText = new JLabel(msg);
-
-        messagePanel.add(chatterID);
-        messagePanel.add(chatText);
-
-        chatviewPanel.add(messagePanel);
-        chatviewPanel.revalidate();
-        chatviewPanel.repaint();
-    }
 }
 
