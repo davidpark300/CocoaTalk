@@ -42,21 +42,21 @@ public class ChatUI extends JPanel {
 class Chatview extends JPanel {
     private JPanel chatviewPanel;
     private JLabel roomName;
+    private String chatName = "채팅방";
+    
 
     public Chatview() {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.YELLOW);
 
-        // 채팅방 제목
-        roomName = new JLabel("채팅방", SwingConstants.CENTER);
+        roomName = new JLabel(chatName);
         roomName.setOpaque(true);
         roomName.setBackground(Color.GRAY);
         this.add(roomName, BorderLayout.NORTH);
 
-        // 채팅 메시지 패널 (스크롤 패널 제거)
         chatviewPanel = new JPanel();
-        chatviewPanel.setLayout(new BoxLayout(chatviewPanel, BoxLayout.Y_AXIS)); // 메시지 세로 정렬
-        this.add(chatviewPanel, BorderLayout.CENTER); // 직접 추가 (JScrollPane X)
+        chatviewPanel.setLayout(new BoxLayout(chatviewPanel, BoxLayout.Y_AXIS));
+        this.add(chatviewPanel, BorderLayout.CENTER);
     }
 
     public void getMessage(String id, String msg) {
