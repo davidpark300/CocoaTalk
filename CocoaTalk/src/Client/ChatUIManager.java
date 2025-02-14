@@ -1,71 +1,45 @@
 package Client;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Vector;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
+import java.util.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ChatUI extends JPanel {
+public class ChatUIManager {
+	// chatUI 객체
+	public JPanel chatUI = MainUIManager.containerUIFactory.createJPanel();
+	public JPanel GetUI() { return chatUI; }
+	
+	// 부모 프레임 매니저 객체
+	MainUIManager owner;
+	
+	// 자식 컴포넌트
 	private EnterUI eui = new EnterUI();
 	private ChatList cl = null;// = new ChatList();
-    private Chatview chatview;
-    private JScrollPane scrollPane;
-
-    public ChatUI(int height) {
-    	this.setLayout(null);
-		this.setSize(800, 600);
-		this.setVisible(true);
-		
-		eui.setBounds(250, 450, 520, 100);
-		this.add(eui);
-		cl = new ChatList(height);
-		this.add(cl);
-
-        chatview = new Chatview();
-        scrollPane = new JScrollPane(chatview);
-        scrollPane.setBounds(250, 0, 520, 100);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        this.add(scrollPane);
-
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                int panelWidth = getWidth();
-                int panelHeight = getHeight();
-
-                int scrollWidth = (int) (panelWidth * 2.0 / 3);
-                int scrollHeight = (int) (panelHeight * 2.0 / 3);
-                int xPosition = panelWidth / 3;
-                int yPosition = 0;
-
-                scrollPane.setBounds(xPosition, yPosition, scrollWidth, scrollHeight);
-            }
-        });
-    }
+	
+	// 생성자
+	public ChatUIManager(MainUIManager owner) {
+		this.owner = owner;
+		chatUI.setLayout(null);
+		chatUI.setSize(800, 600);
+		chatUI.setVisible(true);
+		setExtra();
+		cl = new ChatList(owner.GetUI().getHeight());
+		chatUI.add(cl);
+	}
+	
+	// 추가 기능 설정
+	private void setExtra() {
+		((KeepProportionJPanel)chatUI).addKeepProportionUIComponent(eui, new ProportionData(
+			true, ((x, y, w, h) ->  w / 4), 0,
+			true, ((x, y, w, h) ->  h / 4), 0,
+			true, ((x, y, w, h) ->  w / 4 * 2), 0,
+			true, ((x, y, w, h) ->  h / 4), 0
+		));
+	}
 }
 
 class EnterUI extends JPanel {
@@ -108,42 +82,6 @@ class EnterUI extends JPanel {
 		messageTextField.setBounds(w / 5, 0, w * 3 / 5, h);
 		sendMessageButuon.setBounds(w * 4 / 5, 0, w / 5, h);
 	}
-}
-
-
-class Chatview extends JPanel {
-    private JPanel chatviewPanel;
-    private JLabel roomName;
-    private String chatName = "채팅방";
-    
-
-    public Chatview() {
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.YELLOW);
-
-        roomName = new JLabel(chatName);
-        roomName.setOpaque(true);
-        roomName.setBackground(Color.GRAY);
-        this.add(roomName, BorderLayout.NORTH);
-
-        chatviewPanel = new JPanel();
-        chatviewPanel.setLayout(new BoxLayout(chatviewPanel, BoxLayout.Y_AXIS));
-        this.add(chatviewPanel, BorderLayout.CENTER);
-        
-        addText("홍성환", "안녕하세요.");
-        addText("박준민", "안녕못해요.");
-        addText("최성준", "안녕히가세요.");
-    }
-    
-    public void addText(String id, String text) {
-    	JLabel name = new JLabel(id);
-    	JLabel msg = new JLabel(text);
-    	
-    	
-    	chatviewPanel.add(name);
-    	chatviewPanel.add(msg);
-    }
-
 }
 
 // Q. 로그인을 하고 채팅에 어떻게 참여할 것인가
@@ -304,4 +242,3 @@ class PanelListCellRenderer implements ListCellRenderer<JPanel> {
 		return panel;
 	}
 }
-
