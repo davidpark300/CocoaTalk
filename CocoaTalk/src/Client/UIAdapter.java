@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Server.User;
 import Server.UserEdit;
 
 public class UIAdapter {
@@ -28,6 +29,10 @@ class LoginAdapter {
 		if(userEdit.loginUser(id,pw) != 1) return 0;
 		return 1;
 	}
+	
+	public void register(String ID, String PW, String Nick) {
+		userEdit.registerUser(new User(ID, PW, Nick));
+	}
 }
 
 class ChatAdapter {
@@ -42,7 +47,7 @@ class ChatListAdapter {
 	private ChatListManager target = null;
 	private String userName = new String();
 	
-	public LinkedList<String> chatRoomList = new LinkedList<String>();
+	public Vector<String> chatRoomList = new Vector<String>();
 	
 	public ChatListAdapter(ChatListManager target) {
 		this.target = target;

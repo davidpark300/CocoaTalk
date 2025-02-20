@@ -3,6 +3,8 @@ package Client;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLIntegrityConstraintViolationException;
+
 import javax.swing.*;
 
 public class RegisterUIManager {
@@ -39,6 +41,10 @@ public class RegisterUIManager {
 		registerPanel.add(registerButton);				// 회원가입 패널에 회원가입 버튼 추가
 		
 		setExtra();
+		
+		registerButton.addActionListener(e -> {
+			loginListAdapter.register(idTextField.getText(), pwTextField.getText(), "hi");
+        });
 		
 		registerUI.setVisible(true);
 	}
