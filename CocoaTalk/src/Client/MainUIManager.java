@@ -6,12 +6,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MainUIManager {
-	// 응용프로그램에서 사용할 컨테이너 팩토리
-	public static KeepProportionUIContainerFactory containerUIFactory = new KeepProportionUIContainerFactory();
+	// 응용프로그램에서 사용할 팩토리
+	public static KeepProportionUIComponentFactory componentUIFactory = new KeepProportionUIComponentFactory();
+	public static KeepProportionUIContainerFactory containerUIFactory = componentUIFactory.createContainerFactory();
 	
 	// 상수
-	final int INITIAL_WIDTH = 800;
-	final int INITIAL_HEIGHT = 600;
+	public static final int WINDOW_INITIAL_WIDTH = 800;
+	public static final int WINDOW_INITIAL_HEIGHT = 600;
 	
 	// mainUI 객체
 	public JFrame mainUI = containerUIFactory.createJFrame("코코아톡");
@@ -27,7 +28,7 @@ public class MainUIManager {
 	// 생성자
 	MainUIManager() {
 		mainUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainUI.setSize(INITIAL_WIDTH, INITIAL_HEIGHT);
+		mainUI.setSize(WINDOW_INITIAL_WIDTH, WINDOW_INITIAL_HEIGHT);
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension dim2 = mainUI.getSize();
@@ -45,8 +46,8 @@ public class MainUIManager {
 	
 	// 메서드
 	private void SetCards() {
-		cardPanel.add(loginUIManager.GetUI(), "loginUI");
-		cardPanel.add(chatUIManager.GetUI(), "chatUI");
+		cardPanel.add(loginUIManager.getUI(), "loginUI");
+		cardPanel.add(chatUIManager.getUI(), "chatUI");
 		mainUI.add(cardPanel);
 	}
 	public void SwitchUI(String name) {
