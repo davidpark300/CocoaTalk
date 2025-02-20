@@ -122,6 +122,10 @@ public class LoginUIManager {
 			owner.SwitchUI("registerUI");
 		});
 		
+		registerLabel.addActionListener(e ->{
+			
+		});
+		
 		setExtra();
 		
 		loginUI.setVisible(true);
