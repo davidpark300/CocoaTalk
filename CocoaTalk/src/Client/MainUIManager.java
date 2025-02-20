@@ -22,8 +22,9 @@ public class MainUIManager {
 	private JPanel cardPanel = new JPanel(new CardLayout());
 	
 	// 자식 컴포넌트
-	private LoginUIManager loginUIManager = new LoginUIManager(this);
-	private ChatUIManager chatUIManager = new ChatUIManager(this);
+	public LoginUIManager loginUIManager = new LoginUIManager(this);
+	public ChatUIManager chatUIManager = new ChatUIManager(this);
+	public RegisterUIManager registerUIManager = new RegisterUIManager(this);
 	
 	// 생성자
 	MainUIManager() {
@@ -48,6 +49,7 @@ public class MainUIManager {
 	private void SetCards() {
 		cardPanel.add(loginUIManager.getUI(), "loginUI");
 		cardPanel.add(chatUIManager.getUI(), "chatUI");
+		cardPanel.add(registerUIManager.getUI(), "registerUI");
 		mainUI.add(cardPanel);
 	}
 	public void SwitchUI(String name) {

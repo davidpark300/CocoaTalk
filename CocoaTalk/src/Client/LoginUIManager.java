@@ -7,18 +7,15 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class LoginUIManager {
+	// 부모 프레임 매니저 객체
+	MainUIManager owner;
+	
 	// 어댑터 객체
 	LoginAdapter loginAdapter = new LoginAdapter(this);
 	
 	// loginUI 객체
 	public JPanel loginUI = MainUIManager.containerUIFactory.createJPanel();
 	public JPanel getUI() { return loginUI; }
-	
-	// 부모 프레임 매니저 객체
-	MainUIManager owner;
-	
-	// 포함 매니저 객체
-	RegisterUIManager registerUIManager = new RegisterUIManager(this);
 	
 	// 자식 컴포넌트
 	private JPanel loginPanel = MainUIManager.containerUIFactory.createJPanel();
@@ -122,7 +119,7 @@ public class LoginUIManager {
         });
 		// 회원가입 버튼 리스너 - 회원가입 다이얼로그 생성
 		registerLabel.addActionListener(e -> {
-			registerUIManager.getUI().setVisible(true);
+			owner.SwitchUI("registerUI");
 		});
 		
 		setExtra();
@@ -135,7 +132,7 @@ public class LoginUIManager {
 		// loginUI - loginPanel
 		((KeepProportionJPanel)loginUI).setChildProportion(loginPanel, new ProportionData(
 				((x, y, w, h) -> w / 2 - 150),
-				((x, y, w, h) -> h / 2 - 125),
+				((x, y, w, h) -> h / 2 - 150),
 				((x, y, w, h) -> 300),
 				((x, y, w, h) -> 300)
 			));

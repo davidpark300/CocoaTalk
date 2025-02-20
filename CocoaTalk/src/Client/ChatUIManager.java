@@ -11,15 +11,15 @@ import javax.swing.event.ListSelectionListener;
 public class ChatUIManager {
 	final public static int CHATLIST_WIDTH = 200;
 	
+	// 부모 프레임 매니저 객체
+	MainUIManager owner;
+	
 	// 어댑터 객체
 	private ChatAdapter chatAdapter = new ChatAdapter(this);
 	
 	// chatUI 객체
 	public JPanel chatUI = MainUIManager.containerUIFactory.createJPanel();
 	public JPanel getUI() { return chatUI; }
-	
-	// 부모 프레임 매니저 객체
-	MainUIManager owner;
 	
 	// 자식 컴포넌트
 	private ChatListManager chatListManger = new ChatListManager(this);

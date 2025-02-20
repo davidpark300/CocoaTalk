@@ -8,15 +8,15 @@ import javax.swing.*;
 public class ChatListManager {
 	final public static int CHAT_HEIGHT = 50;
 	
+	// 부모 채팅 매니저 객체
+	ChatUIManager owner;
+	
 	// 어댑터 객체
 	private ChatListAdapter chatListAdapter = new ChatListAdapter(this);
 	
 	// chatListUI 객체
 	private JPanel chatListUI = MainUIManager.containerUIFactory.createJPanel();
 	public JPanel getUI() { return chatListUI; }
-	
-	// 부모 채팅 매니저 객체
-	ChatUIManager owner;
 	
 	// 자식 컴포넌트
 	private JPanel userPanel = MainUIManager.containerUIFactory.createJPanel();
