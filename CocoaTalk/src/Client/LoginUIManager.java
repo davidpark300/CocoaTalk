@@ -17,6 +17,9 @@ public class LoginUIManager {
 	// 부모 프레임 매니저 객체
 	MainUIManager owner;
 	
+	// 포함 매니저 객체
+	RegisterUIManager registerUIManager = new RegisterUIManager(this);
+	
 	// 자식 컴포넌트
 	private JPanel loginPanel = MainUIManager.containerUIFactory.createJPanel();
 	private ImageIcon cocoaImages = new ImageIcon("Image/CocoaImages.png");
@@ -117,6 +120,10 @@ public class LoginUIManager {
 			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
+		// 회원가입 버튼 리스너 - 회원가입 다이얼로그 생성
+		registerLabel.addActionListener(e -> {
+			registerUIManager.getUI().setVisible(true);
+		});
 		
 		setExtra();
 		

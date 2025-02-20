@@ -15,8 +15,8 @@ public class MainUIManager {
 	public static final int WINDOW_INITIAL_HEIGHT = 600;
 	
 	// mainUI 객체
-	public JFrame mainUI = containerUIFactory.createJFrame("코코아톡");
-	public JFrame GetUI() { return mainUI; }
+	private JFrame mainUI = containerUIFactory.createJFrame("코코아톡");
+	public JFrame getUI() { return mainUI; }
 	
 	// 카드 패널
 	private JPanel cardPanel = new JPanel(new CardLayout());
