@@ -1,12 +1,15 @@
 package Server;
 
+import java.util.Vector;
+
 public class User {
 	private String userID; // ID
 	private String userPW; // PW
 	private String userNickName; // NickName
+	private Vector<String> userRoomKeys = new Vector<String>();
 
 	public User() {
-		
+
 	}
 
 	public User(String userID, String userPW, String userNickName) {
@@ -37,6 +40,14 @@ public class User {
 
 	public void setUserNickName(String userNickName) {
 		this.userNickName = userNickName;
+	}
+
+	public Vector<String> getUserRoomKeys() {
+		return userRoomKeys;
+	}
+
+	public void setUserKey(String newRoomKey) {
+		userRoomKeys.add(newRoomKey);
 	}
 
 	@Override

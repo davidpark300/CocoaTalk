@@ -121,6 +121,10 @@ public class LoginUIManager {
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
 		
+		registerLabel.addActionListener(e ->{
+			
+		});
+		
 		setExtra();
 		
 		loginUI.setVisible(true);

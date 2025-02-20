@@ -79,6 +79,52 @@ public class UserEdit {
 		return list;
 	}
 
+	public int loginUser(String userID, String userPW) {
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			// TODO: handle exception
+			System.out.println("JDBC 드라이버 불러오기 실패");
+		}
+		String sql = "select * from logintb where id ='" + userID + "' and pw ='" + userPW + "'";
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DriverManager.getConnection(url, SQLID, SQLPW);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String ID = rs.getString("ID");
+				String PW = rs.getString("PW");
+				String nickName = rs.getNString("NickName");
+				// JSON 파싱하는 구분 필요
+				return 1;
+			}
+		} catch (SQLException e) {
+			// TODO: handle exception
+			System.out.println("SQL 구문 에러");
+		} finally {
+			// 6. 자원 해제
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+
 	public User selectUser(String userID) {
 		// 1. JDBC Driver 로딩
 		try {
@@ -103,7 +149,7 @@ public class UserEdit {
 		return null; // 찾은 유저가 없는 경우 null 반환
 	}
 
-	public void addUser(User dto) {
+	public void registerUser(User dto) {
 		// 1. JDBC Driver 로딩
 		try {
 			Class.forName(driver);

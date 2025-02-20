@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Server.UserEdit;
+
 public class UIAdapter {
 
 }
@@ -12,6 +14,7 @@ public class UIAdapter {
 class LoginAdapter {
 	private LoginUIManager target = null; 
 	private HashMap<String, String> tmpIDPWDB = new HashMap<String, String>();
+	private UserEdit userEdit = new UserEdit();
 	
 	public LoginAdapter(LoginUIManager target) { // sql 로그인 tb랑 비교해서 확인하기
 		this.target = target;
@@ -21,9 +24,8 @@ class LoginAdapter {
 		tmpIDPWDB.put(" ", " ");
 	}
 	
-	public int verifyIDPW(String id, String pw) {
-		if (tmpIDPWDB.get(id) == null) return -1;
-		if (tmpIDPWDB.get(id).equals(pw) == false) return 0;
+	public int verifyIDPW(String id, String pw) { // 여기서 확인
+		if(userEdit.loginUser(id,pw) != 1) return 0;
 		return 1;
 	}
 }
