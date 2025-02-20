@@ -13,7 +13,7 @@ class LoginAdapter {
 	private LoginUIManager target = null; 
 	private HashMap<String, String> tmpIDPWDB = new HashMap<String, String>();
 	
-	public LoginAdapter(LoginUIManager target) {
+	public LoginAdapter(LoginUIManager target) { // sql 로그인 tb랑 비교해서 확인하기
 		this.target = target;
 		tmpIDPWDB.put("Amy", "a1234");
 		tmpIDPWDB.put("Betty", "b1234");
