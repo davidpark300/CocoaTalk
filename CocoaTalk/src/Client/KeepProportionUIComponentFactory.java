@@ -10,6 +10,10 @@ import javax.swing.text.*;
 interface QuadIntegerFunction {
 	Integer apply(Integer t1, Integer t2, Integer t3, Integer t4);
 }
+@FunctionalInterface
+interface Runnable {
+    void run();
+}
 
 // 사각형 데이터를 저장하는 객체
 class Rect {

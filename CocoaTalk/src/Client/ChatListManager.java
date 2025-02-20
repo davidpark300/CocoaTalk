@@ -6,6 +6,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ChatListManager {
+	final public static int CHAT_HEIGHT = 50;
+	
 	// 어댑터 객체
 	private ChatListAdapter chatListAdapter = new ChatListAdapter(this);
 	
@@ -19,8 +21,9 @@ public class ChatListManager {
 	// 자식 컴포넌트
 	private JPanel userPanel = MainUIManager.containerUIFactory.createJPanel();
 	private JLabel userName = MainUIManager.componentUIFactory.createJLabel(chatListAdapter.getUserName());
-	private JScrollPane chatListScrollPane = MainUIManager.containerUIFactory.createJScrollPane();
-	private LinkedList<JPanel> chatPanels = new LinkedList<JPanel>();
+	
+	private JPanel chatListPanel = new JPanel();
+	private JScrollPane chatListScrollPane = null;
 	
 	// 데이터 멤버
 	private int selectedIndex = 0;
@@ -34,29 +37,46 @@ public class ChatListManager {
 		// 컴포넌트 추가
 		chatListUI.add(userPanel);					// 화면에 유저 패널 추가
 		userPanel.add(userName);					// 유저 패널에 유저 이름 라벨 추가
+		// 채팅 리스트 스크롤팬 추가
+		chatListScrollPane = new JScrollPane(chatListPanel);
+		
+		setChatList();
 		
 		chatListUI.add(chatListScrollPane);			// 화면에 채팅 리스트 스크롤팬 추가
-		updateChatPanels();							// 채팅 패널 연결 리스트 업데이트
-		for (JPanel chatPanel : chatPanels) {		// 채팅 리스트 스크롤 패널에 채팅 패널들 추가
-			//chatListScrollPane.add(chatPanel);
-		}
+		chatListScrollPane.setLayout(new ScrollPaneLayout()); 	// 채팅 리스트 스크롤팬 배치관리자 설정
+		chatListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 항상 세로 스크롤바 표시
+		chatListScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // 가로 스크롤바는 숨김
 		
 		setExtra();
 		
 		chatListUI.setVisible(true);
 	}
 	
-	private void updateChatPanels() {
-		chatPanels = new LinkedList<JPanel>();
+	private void setChatList() {
+		chatListPanel.setLayout(new BoxLayout(chatListPanel, BoxLayout.Y_AXIS));
+		chatListPanel.setBackground(new Color(0x003A2F0B));
+		// 채팅 리스트 패널에 채팅 패널들 추가
 		for (int index = 0; index < chatListAdapter.size(); index++) {
-			JPanel chatPanel = MainUIManager.containerUIFactory.createJPanel();
-			JLabel chatRoomName = MainUIManager.componentUIFactory.createJLabel(chatListAdapter.getRoomName(index));
-			chatPanel.add(chatRoomName);
-			JButton charRoomStore = MainUIManager.componentUIFactory.createJButton("저장된 정보 보기");
-			chatPanel.add(charRoomStore);
-			chatPanels.add(chatPanel);
+			JPanel chatPanel = new JPanel();
+			chatPanel.setLayout(null);
+			chatPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, CHAT_HEIGHT)); // 각 패널의 크기 지정
+			chatPanel.setBackground(new Color(0x00FBF2EF));
 			
-			updateChatPanelsExtra(chatPanel, chatRoomName, charRoomStore);
+			JLabel chatRoomName = new JLabel(chatListAdapter.getRoomName(index));
+			chatRoomName.setBounds(0, 0, ChatUIManager.CHATLIST_WIDTH / 2, CHAT_HEIGHT);
+			JButton charRoomStore = new JButton("기록");
+			charRoomStore.setBounds(
+					ChatUIManager.CHATLIST_WIDTH / 2,
+					CHAT_HEIGHT / 10,
+					ChatUIManager.CHATLIST_WIDTH / 2 - ChatUIManager.CHATLIST_WIDTH / 10,
+					CHAT_HEIGHT - 8 * CHAT_HEIGHT / 50
+				);
+			
+			chatPanel.add(chatRoomName);
+			chatPanel.add(charRoomStore);
+			
+			chatListPanel.add(chatPanel);
+			chatListPanel.add(Box.createRigidArea(new Dimension(0, 3 * CHAT_HEIGHT / 50))); // 간격 추가
 		}
 	}
 	
@@ -66,53 +86,22 @@ public class ChatListManager {
 		((KeepProportionJPanel)chatListUI).setChildProportion(userPanel, new ProportionData(
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> 0),
-				((x, y, w, h) -> w),
-				((x, y, w, h) -> 50)
+				((x, y, w, h) -> ChatUIManager.CHATLIST_WIDTH),
+				((x, y, w, h) -> CHAT_HEIGHT)
 			));
 		// chatListUI - userPanel - userName
 		((KeepProportionJPanel)userPanel).setChildProportion(userName, new ProportionData(
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> 0),
-				((x, y, w, h) -> w),
-				((x, y, w, h) -> h)
+				((x, y, w, h) -> ChatUIManager.CHATLIST_WIDTH),
+				((x, y, w, h) -> CHAT_HEIGHT)
 			));
 		// chatListUI - chatListScrollPane
 		((KeepProportionJPanel)chatListUI).setChildProportion(chatListScrollPane, new ProportionData(
 				((x, y, w, h) -> 0),
-				((x, y, w, h) -> 50),
-				((x, y, w, h) -> w),
-				((x, y, w, h) -> h - 50)
-			));
-		int index = 0;
-		for (JPanel chatPanel : chatPanels) {
-			// chatListUI - chatListPanel - chatPanel
-			final int INDEX = index;
-			((KeepProportionJScrollPane)chatListScrollPane).setChildProportion(chatPanel, new ProportionData(
-					((x, y, w, h) -> 0),
-					((x, y, w, h) -> 50 * INDEX),
-					((x, y, w, h) -> w),
-					((x, y, w, h) -> 50)
-				));
-			index++;
-		}
-		
-	}
-	
-	private void updateChatPanelsExtra(JPanel chatPanel, JLabel chatRoomName, JButton chatRoomStore) {
-		((KeepProportionJPanel)chatPanel).setRepaint(false);
-		// chatListUI - chatListPanel - chatPanels - chatPanel
-		((KeepProportionJPanel)chatPanel).setChildProportion(chatRoomName, new ProportionData(
-				((x, y, w, h) -> 0),
-				((x, y, w, h) -> 0),
-				((x, y, w, h) -> w / 2),
-				((x, y, w, h) -> h)
-			));
-		// chatListUI - chatListPanel - chatPanels - chatRoomStore
-		((KeepProportionJPanel)chatPanel).setChildProportion(chatRoomStore, new ProportionData(
-				((x, y, w, h) -> w / 2),
-				((x, y, w, h) -> h / 100),
-				((x, y, w, h) -> w / 2),
-				((x, y, w, h) -> h - h / 100)
+				((x, y, w, h) -> CHAT_HEIGHT),
+				((x, y, w, h) -> ChatUIManager.CHATLIST_WIDTH),
+				((x, y, w, h) -> h - CHAT_HEIGHT)
 			));
 	}
 }

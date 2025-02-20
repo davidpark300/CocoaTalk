@@ -11,7 +11,7 @@ public class MainUIManager {
 	public static KeepProportionUIContainerFactory containerUIFactory = componentUIFactory.createContainerFactory();
 	
 	// 상수
-	public static final int WINDOW_INITIAL_WIDTH = 800;
+	public static final int WINDOW_INITIAL_WIDTH = 900;
 	public static final int WINDOW_INITIAL_HEIGHT = 600;
 	
 	// mainUI 객체

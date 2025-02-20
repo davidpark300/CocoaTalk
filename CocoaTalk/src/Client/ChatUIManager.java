@@ -9,6 +9,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 public class ChatUIManager {
+	final public static int CHATLIST_WIDTH = 200;
+	
 	// 어댑터 객체
 	private ChatAdapter chatAdapter = new ChatAdapter(this);
 	
@@ -25,7 +27,7 @@ public class ChatUIManager {
 	private JButton addFileButton = MainUIManager.componentUIFactory.createJButton("파일 추가");
 	private JButton addEmojiButton = MainUIManager.componentUIFactory.createJButton("이모지 추가");
 	private JButton addPaintButton = MainUIManager.componentUIFactory.createJButton("그림 추가");
-	private JPanel enterPanel = MainUIManager.containerUIFactory.createJPanel();
+	private JTextField enterTextField = MainUIManager.componentUIFactory.createJTextField();
 	private JButton addSendButton = MainUIManager.componentUIFactory.createJButton("보내기");
 	
 	private JPanel viewerUI = MainUIManager.containerUIFactory.createJPanel();
@@ -54,8 +56,7 @@ public class ChatUIManager {
 		addPaintButton.setBorderPainted(false);	// 그림 추가 버튼의 테두리 제거
 		addPaintButton.setBackground(new Color(0x00FBF8EF));	// 그림 추가 버튼의 배경 색상 설정
 		
-		enterUI.add(enterPanel);				// 입력 화면에 입력 패널 추가
-		enterPanel.setBackground(Color.WHITE);	// 입력 패널 배경 설정
+		enterUI.add(enterTextField);			// 입력 화면에 입력 텍스트 필드 추가
 		
 		enterUI.add(addSendButton);				// 입력 화면에 보내기 버튼
 		addSendButton.setBorderPainted(false);	// 보내기 버튼의 테두리 제거
@@ -75,15 +76,15 @@ public class ChatUIManager {
 		((KeepProportionJPanel)chatUI).setChildProportion(chatListManger.getUI(), new ProportionData(
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> 0),
-				((x, y, w, h) -> 200),
+				((x, y, w, h) -> CHATLIST_WIDTH),
 				((x, y, w, h) -> h)
 			));
 		
 		// chatUI - enterUI
 		((KeepProportionJPanel)chatUI).setChildProportion(enterUI, new ProportionData(
-				((x, y, w, h) -> 200),
+				((x, y, w, h) -> CHATLIST_WIDTH),
 				((x, y, w, h) -> 4 * h / 5),
-				((x, y, w, h) -> w - 200),
+				((x, y, w, h) -> w - CHATLIST_WIDTH),
 				((x, y, w, h) -> h / 5)
 			));
 		((KeepProportionJPanel)enterUI).setRepaint(false);
@@ -112,14 +113,13 @@ public class ChatUIManager {
 				((x, y, w, h) -> 2 * h / 10)
 			));
 
-		// chatUI - enterUI - enterPanel
-		((KeepProportionJPanel)enterUI).setChildProportion(enterPanel, new ProportionData(
+		// chatUI - enterUI - enterTextField
+		((KeepProportionJPanel)enterUI).setChildProportion(enterTextField, new ProportionData(
 				((x, y, w, h) -> 6 * w / 20),
 				((x, y, w, h) -> 1 * h / 10),
 				((x, y, w, h) -> 10 * w / 20),
 				((x, y, w, h) -> 8 * h / 10)
 			));
-		((KeepProportionJPanel)enterPanel).setRepaint(false);
 
 		// chatUI - enterUI - addSendButton
 		((KeepProportionJPanel)enterUI).setChildProportion(addSendButton, new ProportionData(
@@ -133,7 +133,7 @@ public class ChatUIManager {
 		((KeepProportionJPanel)chatUI).setChildProportion(viewerUI, new ProportionData(
 				((x, y, w, h) -> 200),
 				((x, y, w, h) -> 0),
-				((x, y, w, h) -> w - 200),
+				((x, y, w, h) -> w - CHATLIST_WIDTH),
 				((x, y, w, h) -> h)
 			));
 		((KeepProportionJPanel)viewerUI).setRepaint(false);

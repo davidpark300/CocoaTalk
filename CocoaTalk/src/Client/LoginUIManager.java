@@ -6,9 +6,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import Server.User;
-import Server.UserEdit;
-
 public class LoginUIManager {
 	// 어댑터 객체
 	LoginAdapter loginAdapter = new LoginAdapter(this);

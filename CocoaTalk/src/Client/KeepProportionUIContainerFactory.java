@@ -16,7 +16,7 @@ interface KeepProportionUIContainerInterface {
 
 // KeepProportionUIContainer의 인터페이스를 상세 구현하고 KeepProportionUIContainer 객체의 공통 기능을 정의하는 클래스
 class KeepProportionUIContainerBase implements KeepProportionUIContainerInterface {
-	private HashMap<Component, ProportionData> proportionDatas = new HashMap<Component, ProportionData>();
+	public HashMap<Component, ProportionData> proportionDatas = new HashMap<Component, ProportionData>();
 	private Container container;
 	private boolean doRepaint = false;
 	
@@ -138,53 +138,6 @@ class KeepProportionJFrame extends JFrame implements KeepProportionUIContainerIn
  	}
 }
 
-// KeepProportionJScrollPane
-class KeepProportionJScrollPane extends JScrollPane implements KeepProportionUIContainerInterface {
-	private KeepProportionUIContainerBase twin = new KeepProportionUIContainerBase(this);
-	
-	public KeepProportionJScrollPane() {
-		super();
-		this.setLayout(null);
-		this.addComponentListener(twin.KeepProportionUIContainerComponentAdapter);
-	}
-	public KeepProportionJScrollPane(Component view) {
-		super(view);
-		this.setLayout(null);
-		this.addComponentListener(twin.KeepProportionUIContainerComponentAdapter);
-	}
-	public KeepProportionJScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
-		super(view, vsbPolicy, hsbPolicy);
-		this.setLayout(null);
-		this.addComponentListener(twin.KeepProportionUIContainerComponentAdapter);
-	}
-	public KeepProportionJScrollPane(int vsbPolicy, int hsbPolicy) {
-		super(vsbPolicy, hsbPolicy);
-		this.setLayout(null);
-		this.addComponentListener(twin.KeepProportionUIContainerComponentAdapter);
-	}
-
-	@Override
-	public void setChildBounds(Component comp) {
-		twin.setChildBounds(comp);
-	}
-	@Override
-	public void setChildProportion(Component comp, ProportionData proportionData) {
-		twin.setChildProportion(comp, proportionData);
-	}
-	@Override
-	public ProportionData getChildProportion(Component comp) {
-		return twin.getChildProportion(comp);
-	}
-	@Override
-	public void removeChildProportion(Component comp) {
-		twin.removeChildProportion(comp);
-	}
-	@Override
-	public void setRepaint(boolean on) {
-		twin.setRepaint(on);
-	}
-}
-
 // KeepProportionJPanel
 class KeepProportionJPanel extends JPanel implements KeepProportionUIContainerInterface {
 	private KeepProportionUIContainerBase twin = new KeepProportionUIContainerBase(this);
@@ -223,9 +176,4 @@ public class KeepProportionUIContainerFactory {
 	public KeepProportionJDialog createJDialog(JFrame owner, String title, boolean modal) { return new KeepProportionJDialog(owner, title, modal); }
 	public KeepProportionJFrame createJFrame(String text) { return new KeepProportionJFrame(text); }
 	public KeepProportionJPanel createJPanel() { return new KeepProportionJPanel(); }
-	
-	public KeepProportionJScrollPane createJScrollPane() { return new KeepProportionJScrollPane(); }
-	public KeepProportionJScrollPane createJScrollPane(Component view) { return new KeepProportionJScrollPane(view); }
-	public KeepProportionJScrollPane createJScrollPane(Component view, int vsbPolicy, int hsbPolicy) { return new KeepProportionJScrollPane(view, vsbPolicy, hsbPolicy); }
-	public KeepProportionJScrollPane createJScrollPane(int vsbPolicy, int hsbPolicy) { return new KeepProportionJScrollPane(vsbPolicy, hsbPolicy); }
 }
