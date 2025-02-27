@@ -19,7 +19,7 @@ public class LoginUIManager {
 	
 	// 자식 컴포넌트
 	private JPanel loginPanel = MainUIManager.containerUIFactory.createJPanel();
-	private ImageIcon cocoaImages = new ImageIcon("Image/CocoaImages.png");
+	private ImageIcon cocoaImages = new ImageIcon(getClass().getResource("/Image/CocoaImages.png"));
 	private JLabel logoLabel = MainUIManager.componentUIFactory.createJLabel(cocoaImages);
 	private JTextField idTextField = MainUIManager.componentUIFactory.createJTextField();
 	private JTextField pwTextField = MainUIManager.componentUIFactory.createJTextField();
