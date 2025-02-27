@@ -36,34 +36,70 @@ class LoginAdapter {
 }
 
 class ChatAdapter {
+	static public enum MessageType {
+		text
+	}
+	
 	private ChatUIManager target = null;
+
+	private String userNickName = new String();
+	
+	private Vector<String> chatRoomList = new Vector<String>();
+	
+	private ArrayList<String> senderList = new ArrayList<String>();
+	private ArrayList<MessageType> typeList = new ArrayList<MessageType>();
+	private ArrayList<String> contentList = new ArrayList<String>();
 	
 	public ChatAdapter(ChatUIManager target) {
 		this.target = target;
-	}
-}
-
-class ChatListAdapter {
-	private ChatListManager target = null;
-	private String userName = new String();
-	
-	public Vector<String> chatRoomList = new Vector<String>();
-	
-	public ChatListAdapter(ChatListManager target) {
 		this.target = target;
-		userName = "test name";
+		userNickName = "test name";
 		for (int i = 0; i < 30; i++) {
 			chatRoomList.add("room number " + i);
 		}
 	}
-
+	
 	public String getUserName() {
-		return this.userName;
+		return this.userNickName;
 	}
 	public int size() {
 		return chatRoomList.size();
 	}
 	public String getRoomName(int index) {
 		return chatRoomList.get(index);
+	}
+	
+	public void setMessageLists() {
+		for (int i = 0; i < 5; i++) {
+			senderList.add("test name");
+			typeList.add(MessageType.text);
+			contentList.add("hi");
+			senderList.add("Jack");
+			typeList.add(MessageType.text);
+			contentList.add("hello");
+		}
+	}
+	
+	public int messageSize() {
+		return senderList.size();
+	}
+	public String getSender(int index) {
+		return senderList.get(index);
+	}
+	public MessageType getType(int index) {
+		return typeList.get(index);
+	}
+	public String getContent(int index) {
+		return contentList.get(index);
+	}
+}
+
+class ChatListAdapter {
+}
+
+class ViewerUIAdapter {
+	private ViewerUIManager target;
+	public ViewerUIAdapter(ViewerUIManager target) {
+		this.target = target;
 	}
 }

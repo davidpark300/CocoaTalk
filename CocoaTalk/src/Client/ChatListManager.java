@@ -11,18 +11,15 @@ public class ChatListManager {
 	// 부모 채팅 매니저 객체
 	ChatUIManager owner;
 	
-	// 어댑터 객체
-	private ChatListAdapter chatListAdapter = new ChatListAdapter(this);
-	
 	// chatListUI 객체
 	private JPanel chatListUI = MainUIManager.containerUIFactory.createJPanel();
 	public JPanel getUI() { return chatListUI; }
 	
 	// 자식 컴포넌트
 	private JPanel userPanel = MainUIManager.containerUIFactory.createJPanel();
-	private JLabel userName = MainUIManager.componentUIFactory.createJLabel(chatListAdapter.getUserName());
+	private JLabel userName = null;
 	
-	private JPanel chatListPanel = new JPanel();
+	private JPanel chatListPanel = MainUIManager.containerUIFactory.createJPanel();
 	private JScrollPane chatListScrollPane = null;
 	
 	// 데이터 멤버
@@ -33,6 +30,9 @@ public class ChatListManager {
 		this.owner = owner;
 		chatListUI.setLayout(null);
 		chatListUI.setBackground(Color.YELLOW);
+		
+		// 컴포넌트 초기화
+		userName = MainUIManager.componentUIFactory.createJLabel(owner.chatAdapter.getUserName());
 		
 		// 컴포넌트 추가
 		chatListUI.add(userPanel);					// 화면에 유저 패널 추가
@@ -56,13 +56,13 @@ public class ChatListManager {
 		chatListPanel.setLayout(new BoxLayout(chatListPanel, BoxLayout.Y_AXIS));
 		chatListPanel.setBackground(new Color(0x003A2F0B));
 		// 채팅 리스트 패널에 채팅 패널들 추가
-		for (int index = 0; index < chatListAdapter.size(); index++) {
+		for (int index = 0; index < owner.chatAdapter.size(); index++) {
 			JPanel chatPanel = new JPanel();
 			chatPanel.setLayout(null);
 			chatPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, CHAT_HEIGHT)); // 각 패널의 크기 지정
 			chatPanel.setBackground(new Color(0x00FBF2EF));
 			
-			JLabel chatRoomName = new JLabel(chatListAdapter.getRoomName(index));
+			JLabel chatRoomName = new JLabel(owner.chatAdapter.getRoomName(index));
 			chatRoomName.setBounds(0, 0, ChatUIManager.CHATLIST_WIDTH / 2, CHAT_HEIGHT);
 			JButton charRoomStore = new JButton("기록");
 			charRoomStore.setBounds(
@@ -76,7 +76,7 @@ public class ChatListManager {
 			chatPanel.add(charRoomStore);
 			
 			chatListPanel.add(chatPanel);
-			chatListPanel.add(Box.createRigidArea(new Dimension(0, 3 * CHAT_HEIGHT / 50))); // 간격 추가
+			chatListPanel.add(Box.createRigidArea(new Dimension(0, 2 * CHAT_HEIGHT / 50))); // 간격 추가
 		}
 	}
 	

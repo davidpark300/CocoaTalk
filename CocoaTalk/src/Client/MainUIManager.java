@@ -52,7 +52,7 @@ public class MainUIManager {
 		cardPanel.add(registerUIManager.getUI(), "registerUI");
 		mainUI.add(cardPanel);
 	}
-	public void SwitchUI(String name) {
+	public void switchUI(String name) {
 		CardLayout cl = (CardLayout) cardPanel.getLayout();
 		cl.show(cardPanel, name);
 	}

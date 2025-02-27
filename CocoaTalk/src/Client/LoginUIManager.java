@@ -11,7 +11,7 @@ public class LoginUIManager {
 	MainUIManager owner;
 	
 	// 어댑터 객체
-	LoginAdapter loginAdapter = new LoginAdapter(this);
+	public LoginAdapter loginAdapter = new LoginAdapter(this);
 	
 	// loginUI 객체
 	public JPanel loginUI = MainUIManager.containerUIFactory.createJPanel();
@@ -21,7 +21,9 @@ public class LoginUIManager {
 	private JPanel loginPanel = MainUIManager.containerUIFactory.createJPanel();
 	private ImageIcon cocoaImages = new ImageIcon("Image/CocoaImages.png");
 	private JLabel logoLabel = MainUIManager.componentUIFactory.createJLabel(cocoaImages);
+	private JLabel idLabel = MainUIManager.componentUIFactory.createJLabel("id");
 	private JTextField idTextField = MainUIManager.componentUIFactory.createJTextField();
+	private JLabel pwLabel = MainUIManager.componentUIFactory.createJLabel("pw");
 	private JTextField pwTextField = MainUIManager.componentUIFactory.createJTextField();
 	private JButton loginButton = MainUIManager.componentUIFactory.createJButton(cocoaImages);
 	private JButton registerLabel = MainUIManager.componentUIFactory.createJButton("회원가입");
@@ -80,7 +82,11 @@ public class LoginUIManager {
 		
 		loginPanel.setBackground(null);				// 로그인 패턴 배경 제거
 		loginPanel.add(logoLabel);					// 로그인 패널에 로고 라벨 추가
+		loginPanel.add(idLabel);					// 로그인 패널에 아이디 라벨 추가
+		idLabel.setFont(new Font("Arial", 0, 15));	// 아이디 라벨 추가 폰트 설정
 		loginPanel.add(idTextField);				// 로그인 패널에 아이디 텍스트 필드 추가
+		loginPanel.add(pwLabel);					// 로그인 패널에 비밀번호 라벨 추가
+		pwLabel.setFont(new Font("Arial", 0, 15));	// 비밀번호 라벨 추가 폰트 설정
 		loginPanel.add(pwTextField);				// 로그인 패널에 비밀번호 텍스트 필드 추가
 		
 		loginPanel.add(loginButton);				// 로그인 패널에 로그인 버튼 추가
@@ -101,25 +107,25 @@ public class LoginUIManager {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
+				if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.switchUI("chatUI");
 				else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		// 아이디 텍스트 필드 액션 리스너 - IDPW가 유효한지 확인 후 chatUI으로 넘어가기
 		idTextField.addActionListener(e -> {
-			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
+			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.switchUI("chatUI");
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
 		// 비밀번호 텍스트 필드 문서 리스너 - 문자 검열
 		pwTextField.getDocument().addDocumentListener(passwordTextFieldDocumentListener);
 		// 비밀번호 텍스트 필드 액션 리스너 - IDPW가 유효한지 확인 후 chatUI으로 넘어가기
 		pwTextField.addActionListener(e -> {
-			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
+			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.switchUI("chatUI");
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
 		// 회원가입 버튼 리스너 - 회원가입 다이얼로그 생성
 		registerLabel.addActionListener(e -> {
-			owner.SwitchUI("registerUI");
+			owner.switchUI("registerUI");
 		});
 		
 		registerLabel.addActionListener(e ->{
@@ -141,14 +147,14 @@ public class LoginUIManager {
 				((x, y, w, h) -> 300)
 			));
 		((KeepProportionJPanel)loginPanel).setRepaint(false);
-		// loginUI - loginPanel - titleLable
+		// loginUI - loginPanel - logoLabel
 		((KeepProportionJPanel)loginPanel).setChildProportion(logoLabel, new ProportionData(
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> 300),
 				((x, y, w, h) -> 151)
 			));
-		// loginUI - loginPanel - titleLable - img
+		// loginUI - loginPanel - logoLabel - img
 		((KeepProportionJLabel)logoLabel).setImgProportion(
 				new ProportionData(
 					((x, y, w, h) -> 0),
@@ -163,16 +169,30 @@ public class LoginUIManager {
 					((x, y, w, h) -> 151)
 					),
 				null);
+		// loginUI - loginPanel - idLabel
+		((KeepProportionJPanel)loginPanel).setChildProportion(idLabel, new ProportionData(
+				((x, y, w, h) -> 0),
+				((x, y, w, h) -> 170),
+				((x, y, w, h) -> 180),
+				((x, y, w, h) -> 25)
+			));
 		// loginUI - loginPanel - idTextField
 		((KeepProportionJPanel)loginPanel).setChildProportion(idTextField, new ProportionData(
-				((x, y, w, h) -> 10),
+				((x, y, w, h) -> 20),
 				((x, y, w, h) -> 170),
+				((x, y, w, h) -> 180),
+				((x, y, w, h) -> 25)
+			));
+		// loginUI - loginPanel - pwLabel
+		((KeepProportionJPanel)loginPanel).setChildProportion(pwLabel, new ProportionData(
+				((x, y, w, h) -> 0),
+				((x, y, w, h) -> 210),
 				((x, y, w, h) -> 180),
 				((x, y, w, h) -> 25)
 			));
 		// loginUI - loginPanel - pwTextField
 		((KeepProportionJPanel)loginPanel).setChildProportion(pwTextField, new ProportionData(
-				((x, y, w, h) -> 10),
+				((x, y, w, h) -> 20),
 				((x, y, w, h) -> 210),
 				((x, y, w, h) -> 180),
 				((x, y, w, h) -> 25)
