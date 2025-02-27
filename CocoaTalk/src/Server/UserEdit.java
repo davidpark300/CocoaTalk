@@ -52,6 +52,8 @@ public class UserEdit {
 				user = new User(ID, PW, nickName);
 				// JSON 데이터타입
 				String jsonKey = rs.getString("RoomKey");
+				if(jsonKey !=null) {
+					
 				JSONParser parser = new JSONParser();
 				JSONObject jsonObject = (JSONObject) parser.parse(jsonKey);
 				JSONArray keyArray = (JSONArray) jsonObject.get("key");
@@ -59,6 +61,7 @@ public class UserEdit {
 					user.setUserRoomKey(key.toString());
 					// System.out.println((String) key);
 				}
+			}
 				return user;
 			}
 		} catch (SQLException e) {
@@ -102,12 +105,12 @@ public class UserEdit {
 			conn = DriverManager.getConnection(url, SQLID, SQLPW);
 			// SQL 구문
 			StringBuilder sql = new StringBuilder();
-			sql.append("insert into logintb values(?,?,?)");
+			sql.append("insert into logintb values(?,?,?,?)");
 			pstmt = conn.prepareStatement(sql.toString()); // 3. SQL 실행 통로 형성
 			pstmt.setString(1, dto.getUserID()); // setString, setInt 등 데이터 타입에 맞춰서 작성
 			pstmt.setString(2, dto.getUserPW());
 			pstmt.setString(3, dto.getUserNickName());
-
+			pstmt.setString(4, null);
 			int result = pstmt.executeUpdate();
 
 			// 5. SQL 결과 처리
