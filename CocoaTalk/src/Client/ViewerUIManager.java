@@ -38,7 +38,6 @@ public class ViewerUIManager {
 		viewerScrollPane.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				viewerPanel.removeAll();
 				renew();
 			}
 		});
@@ -49,6 +48,7 @@ public class ViewerUIManager {
 	
 	// 뷰어 패널 재설정
 	public void renew() {
+		viewerPanel.removeAll();
 		this.owner.chatAdapter.renew();
 		userNickName = owner.chatAdapter.getUserNickName();
 		userID = owner.chatAdapter.getUserID();

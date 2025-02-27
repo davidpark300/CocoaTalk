@@ -55,7 +55,6 @@ public class ChatListManager {
 		chatListUI.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
-				chatListPanel.removeAll();
 				renew();
 			}
 		});
@@ -66,6 +65,7 @@ public class ChatListManager {
 	}
 	
 	public void renew() {
+		chatListPanel.removeAll();
 		this.owner.chatAdapter.renew();
 		this.userName.setText(owner.chatAdapter.getUserNickName());
 		chatListPanel.setLayout(new BoxLayout(chatListPanel, BoxLayout.Y_AXIS));
