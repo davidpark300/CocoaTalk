@@ -30,7 +30,7 @@ public class ChatUIManager {
 	private JTextField enterTextField = MainUIManager.componentUIFactory.createJTextField();
 	private JButton addSendButton = MainUIManager.componentUIFactory.createJButton("보내기");
 	
-	private ViewerUIManager viewerUI = new ViewerUIManager(this);
+	private ViewerUIManager viewerUIManager = new ViewerUIManager(this);
 	
 	// 생성자
 	public ChatUIManager(MainUIManager owner) {
@@ -62,11 +62,16 @@ public class ChatUIManager {
 		addSendButton.setBorderPainted(false);	// 보내기 버튼의 테두리 제거
 		addSendButton.setBackground(new Color(0x00FBF8EF));	// 보내기 버튼의 배경 색상 설정
 
-		chatUI.add(viewerUI.getUI());			// 화면에 뷰어 화면 추가
+		chatUI.add(viewerUIManager.getUI());			// 화면에 뷰어 화면 추가
 		
 		setExtra();
 		
 		chatUI.setVisible(true);
+	}
+	
+	public void renew() {
+		chatListManger.renew();
+		viewerUIManager.renew();
 	}
 	
 	public ChatListManager getChatListManager() {
@@ -133,12 +138,12 @@ public class ChatUIManager {
 			));
 
 		// chatUI - viewerUI
-		((KeepProportionJPanel)chatUI).setChildProportion(viewerUI.getUI(), new ProportionData(
+		((KeepProportionJPanel)chatUI).setChildProportion(viewerUIManager.getUI(), new ProportionData(
 				((x, y, w, h) -> 200),
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> w - CHATLIST_WIDTH),
 				((x, y, w, h) -> 4 * h / 5)
 			));
-		((KeepProportionJPanel)viewerUI.getUI()).setRepaint(false);
+		((KeepProportionJPanel)viewerUIManager.getUI()).setRepaint(false);
 	}
 }

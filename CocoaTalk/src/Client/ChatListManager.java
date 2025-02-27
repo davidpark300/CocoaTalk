@@ -11,17 +11,10 @@ import Server.SQLChatList;
 
 public class ChatListManager {
 	final public static int CHAT_HEIGHT = 50;
+	final public static int CHAT_BLANK_HEIGHT = 2;
 	
 	// 부모 채팅 매니저 객체
 	ChatUIManager owner;
-<<<<<<< HEAD
-=======
-	private User user = null;
-	private UserEdit userEdit = new UserEdit();
-	private SQLChatList sqlChatList = null;
-	// 어댑터 객체
-	private ChatListAdapter chatListAdapter = new ChatListAdapter(this);
->>>>>>> refs/heads/feature-connect-chatlist-db
 	
 	// chatListUI 객체
 	private JPanel chatListUI = MainUIManager.containerUIFactory.createJPanel();
@@ -44,52 +37,47 @@ public class ChatListManager {
 		chatListUI.setBackground(Color.YELLOW);
 		
 		// 컴포넌트 초기화
-		userName = MainUIManager.componentUIFactory.createJLabel(owner.chatAdapter.getUserName());
+		userName = MainUIManager.componentUIFactory.createJLabel(owner.chatAdapter.getUserNickName());
 		
 		// 컴포넌트 추가
 		chatListUI.add(userPanel);					// 화면에 유저 패널 추가
 		userPanel.add(userName);					// 유저 패널에 유저 이름 라벨 추가
+		
 		// 채팅 리스트 스크롤팬 추가
 		chatListScrollPane = new JScrollPane(chatListPanel);
-		
-		// 로그인 이후 실행시키기
-		//setChatList();
-		
-		//chatListAdapter.
 		
 		chatListUI.add(chatListScrollPane);			// 화면에 채팅 리스트 스크롤팬 추가
 		chatListScrollPane.setLayout(new ScrollPaneLayout()); 	// 채팅 리스트 스크롤팬 배치관리자 설정
 		chatListScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 항상 세로 스크롤바 표시
 		chatListScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // 가로 스크롤바는 숨김
 		
+		// 화면이 갱신 될 때 마다 renew 호출
+		chatListUI.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				chatListPanel.removeAll();
+				renew();
+			}
+		});
+		
 		setExtra();
 		
 		chatListUI.setVisible(true);
 	}
 	
-	public void setChatList(User user) {
-		this.user = user;
-		this.userName.setText(user.getUserNickName());
+	public void renew() {
+		this.owner.chatAdapter.renew();
+		this.userName.setText(owner.chatAdapter.getUserNickName());
 		chatListPanel.setLayout(new BoxLayout(chatListPanel, BoxLayout.Y_AXIS));
 		chatListPanel.setBackground(new Color(0x003A2F0B));
-		//chatListAdapter.setChatList();
 		// 채팅 리스트 패널에 채팅 패널들 추가
-<<<<<<< HEAD
-		for (int index = 0; index < owner.chatAdapter.size(); index++) {
-=======
-		for (int index = 0; index < user.getUserRoomCount()/*chatListAdapter.size()*/; index++) {
-			this.sqlChatList = userEdit.getUserChatList(user.getRoomName(index));
->>>>>>> refs/heads/feature-connect-chatlist-db
+		for (int index = 0; index < owner.chatAdapter.getRoomSize(); index++) {
 			JPanel chatPanel = new JPanel();
 			chatPanel.setLayout(null);
 			chatPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, CHAT_HEIGHT)); // 각 패널의 크기 지정
 			chatPanel.setBackground(new Color(0x00FBF2EF));
 			
-<<<<<<< HEAD
 			JLabel chatRoomName = new JLabel(owner.chatAdapter.getRoomName(index));
-=======
-			JLabel chatRoomName = new JLabel(sqlChatList.getRoomName());
->>>>>>> refs/heads/feature-connect-chatlist-db
 			chatRoomName.setBounds(0, 0, ChatUIManager.CHATLIST_WIDTH / 2, CHAT_HEIGHT);
 			JButton charRoomStore = new JButton("기록");
 			charRoomStore.setBounds(
@@ -103,7 +91,15 @@ public class ChatListManager {
 			chatPanel.add(charRoomStore);
 			
 			chatListPanel.add(chatPanel);
-			chatListPanel.add(Box.createRigidArea(new Dimension(0, 2 * CHAT_HEIGHT / 50))); // 간격 추가
+			chatListPanel.add(Box.createRigidArea(new Dimension(0, CHAT_BLANK_HEIGHT * CHAT_HEIGHT / 50))); // 간격 추가
+		}
+		// 스크롤의 크기가 방 리스트보다 클 경우 채팅 리스트 패널에 빈 패널 추가
+		if (chatListUI.getHeight() > (CHAT_HEIGHT + CHAT_BLANK_HEIGHT * CHAT_HEIGHT / 50) * (owner.chatAdapter.getRoomSize())) {
+			JPanel blankPanel = new JPanel();
+			blankPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, 
+					chatListPanel.getHeight() - (CHAT_HEIGHT + CHAT_BLANK_HEIGHT * CHAT_HEIGHT / 50) * owner.chatAdapter.getRoomSize()));
+			blankPanel.setBackground(new Color(0x00000000));
+			chatListPanel.add(blankPanel);
 		}
 	}
 	

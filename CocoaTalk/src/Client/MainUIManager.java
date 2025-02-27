@@ -22,12 +22,16 @@ public class MainUIManager {
 	private JPanel cardPanel = new JPanel(new CardLayout());
 	
 	// 자식 컴포넌트
-	public LoginUIManager loginUIManager = new LoginUIManager(this);
-	public ChatUIManager chatUIManager = new ChatUIManager(this);
-	public RegisterUIManager registerUIManager = new RegisterUIManager(this);
+	public LoginUIManager loginUIManager = null;
+	public ChatUIManager chatUIManager = null;
+	public RegisterUIManager registerUIManager = null;
 	
 	// 생성자
 	MainUIManager() {
+		loginUIManager = new LoginUIManager(this);
+		chatUIManager = new ChatUIManager(this);
+		registerUIManager = new RegisterUIManager(this);
+		
 		mainUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainUI.setSize(WINDOW_INITIAL_WIDTH, WINDOW_INITIAL_HEIGHT);
 		
@@ -55,6 +59,9 @@ public class MainUIManager {
 	public void switchUI(String name) {
 		CardLayout cl = (CardLayout) cardPanel.getLayout();
 		cl.show(cardPanel, name);
+		if (name == "chatUI") {
+			chatUIManager.renew();
+		}
 	}
 	
 	// 추가 기능 설정

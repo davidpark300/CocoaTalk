@@ -21,6 +21,7 @@ public class ViewerUIManager {
 	
 	// 데이터 멤버
 	private String userNickName = new String();
+	private String userID = new String();
 	
 	// 생성자
 	public ViewerUIManager(ChatUIManager owner) {
@@ -38,19 +39,19 @@ public class ViewerUIManager {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				viewerPanel.removeAll();
-				renewViewer();
+				renew();
 			}
 		});
-		
-		renewViewer();
 		
 		setExtra();
 		viewerUI.setVisible(true);
 	}
 	
 	// 뷰어 패널 재설정
-	public void renewViewer() {
-		userNickName = owner.chatAdapter.getUserName();
+	public void renew() {
+		this.owner.chatAdapter.renew();
+		userNickName = owner.chatAdapter.getUserNickName();
+		userID = owner.chatAdapter.getUserID();
 		
 		viewerPanel.setLayout(new BoxLayout(viewerPanel, BoxLayout.Y_AXIS));
 		
@@ -66,20 +67,21 @@ public class ViewerUIManager {
 			messagePanel.setPreferredSize(new Dimension(viewerScrollPane.getWidth(), MESSAGE_HEIGHT)); // 각 패널의 크기 지정
 			messagePanel.setBackground(Color.WHITE);
 			
-			JLabel senderLabel = new JLabel(owner.chatAdapter.getSender(index));
+			JLabel senderNickNameLabel = new JLabel(owner.chatAdapter.getSenderNickName(index));
+			String senderID = owner.chatAdapter.getSenderID(index);
 			JLabel messageLabel = null;
 			if (owner.chatAdapter.getType(index).equals(ChatAdapter.MessageType.text)) {
 				messageLabel = new JLabel(owner.chatAdapter.getContent(index));
 			}
-			messagePanel.add(senderLabel);
+			messagePanel.add(senderNickNameLabel);
 			messagePanel.add(messageLabel);
-			// 사용자의 닉네임과 같은 채팅은 오른쪽 정렬로 출력
-			if (userNickName.equals(senderLabel.getText())) {
-				senderLabel.setHorizontalAlignment(JLabel.RIGHT);
+			// 사용자의 ID와 같은 메시지는 오른쪽에 출력
+			if (userID.equals(senderID)) {
+				senderNickNameLabel.setHorizontalAlignment(JLabel.RIGHT);
 				messageLabel.setHorizontalAlignment(JLabel.RIGHT);
 			}
 			
-			renewViewerExtra(userNickName, messagePanel, senderLabel, messageLabel);
+			renewViewerExtra(senderID, messagePanel, senderNickNameLabel, messageLabel);
 			
 			viewerPanel.add(messagePanel);
 			viewerPanel.add(Box.createRigidArea(new Dimension(0, 2))); // 간격 추가
@@ -92,10 +94,10 @@ public class ViewerUIManager {
         });
 	}
 	
-	private void renewViewerExtra(String userNickName, JPanel messagePanel, JLabel senderLabel, JLabel messageLabel) {
+	private void renewViewerExtra(String senderID, JPanel messagePanel, JLabel senderLabel, JLabel messageLabel) {
 		// viewerUI - viewerScrollPane - messagePanel - senderLabel
 		((KeepProportionJPanel)messagePanel).setChildProportion(senderLabel, new ProportionData(
-				((x, y, w, h) -> (userNickName.equals(senderLabel.getText()) ? w / 5 * 4 : 0)),
+				((x, y, w, h) -> (userID.equals(senderID) ? w / 5 * 4 : 0)),
 				((x, y, w, h) -> 0),
 				((x, y, w, h) -> w / 5 - 20),
 				((x, y, w, h) -> h)
