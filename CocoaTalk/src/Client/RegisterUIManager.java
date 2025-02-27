@@ -12,7 +12,7 @@ public class RegisterUIManager {
 	MainUIManager owner = null;
 	
 	// 어댑터 객체
-	private LoginAdapter loginListAdapter = null;
+	private LoginAdapter loginAdapter = null;
 	
 	// registerUI 객체
 	private JPanel registerUI = MainUIManager.containerUIFactory.createJPanel();
@@ -38,7 +38,7 @@ public class RegisterUIManager {
 	// 생성자
 	public RegisterUIManager(MainUIManager owner) {
 		this.owner = owner;
-		loginListAdapter = new LoginAdapter(owner.loginUIManager);
+		loginAdapter = new LoginAdapter(owner.loginUIManager);
 		
 		registerUI.setBackground(new Color(0x00E3F6CE));	// 화면 배경 설정
 		
@@ -67,7 +67,7 @@ public class RegisterUIManager {
 		
 		// 회원가입 버튼 리스너 - 회원가입
 		registerButton.addActionListener(e -> {
-			loginListAdapter.register(idTextField.getText(), pwTextField.getText(), nnTextField.getText());
+			loginAdapter.register(idTextField.getText(), pwTextField.getText(), nnTextField.getText());
         });
 		// 로그인 버튼 리스너 - 로그인 화면으로 돌아가기
 		loginButton.addActionListener(e -> {
