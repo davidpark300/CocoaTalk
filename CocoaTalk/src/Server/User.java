@@ -6,8 +6,8 @@ public class User {
 	private String userID; // ID
 	private String userPW; // PW
 	private String userNickName; // NickName
-	private Vector<String> userRoomKeys = new Vector<String>();
-
+	private Vector<String> userRoomKeys = null;// = new Vector<String>();
+	private SQLChatList sqlChatList = null;
 	public User() {
 
 	}
@@ -16,6 +16,7 @@ public class User {
 		this.userID = userID;
 		this.userPW = userPW;
 		this.userNickName = userNickName;
+		userRoomKeys = new Vector<String>();
 	}
 
 	public String getUserID() {
@@ -46,8 +47,17 @@ public class User {
 		return userRoomKeys;
 	}
 
-	public void setUserKey(String newRoomKey) {
+	public void setUserRoomKey(String newRoomKey) {
 		userRoomKeys.add(newRoomKey);
+		System.out.println(userRoomKeys.lastElement());
+	}
+
+	public int getUserRoomCount() {
+		return userRoomKeys.size();
+	}
+	
+	public String getRoomName(int index) {
+		return userRoomKeys.get(index);
 	}
 
 	@Override

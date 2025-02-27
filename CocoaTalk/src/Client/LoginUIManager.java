@@ -12,7 +12,7 @@ public class LoginUIManager {
 	
 	// 어댑터 객체
 	LoginAdapter loginAdapter = new LoginAdapter(this);
-	
+	ChatListManager chatListManager = null;//owner.chatUIManager.getChatListManager();
 	// loginUI 객체
 	public JPanel loginUI = MainUIManager.containerUIFactory.createJPanel();
 	public JPanel getUI() { return loginUI; }
@@ -107,14 +107,22 @@ public class LoginUIManager {
 		});
 		// 아이디 텍스트 필드 액션 리스너 - IDPW가 유효한지 확인 후 chatUI으로 넘어가기
 		idTextField.addActionListener(e -> {
-			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
+			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) {
+				chatListManager = owner.chatUIManager.getChatListManager();
+				chatListManager.setChatList(loginAdapter.getUserInfo());
+				owner.SwitchUI("chatUI");
+			}
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
 		// 비밀번호 텍스트 필드 문서 리스너 - 문자 검열
 		pwTextField.getDocument().addDocumentListener(passwordTextFieldDocumentListener);
 		// 비밀번호 텍스트 필드 액션 리스너 - IDPW가 유효한지 확인 후 chatUI으로 넘어가기
 		pwTextField.addActionListener(e -> {
-			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) owner.SwitchUI("chatUI");
+			if (loginAdapter.verifyIDPW(idTextField.getText(), password.toString()) == 1) {
+				chatListManager = owner.chatUIManager.getChatListManager();
+				chatListManager.setChatList(loginAdapter.getUserInfo());
+				owner.SwitchUI("chatUI");
+			}
 			else JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호가 틀렸습니다.", "Message", JOptionPane.ERROR_MESSAGE);
         });
 		// 회원가입 버튼 리스너 - 회원가입 다이얼로그 생성
