@@ -5,11 +5,23 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import Server.User;
+import Server.UserEdit;
+import Server.SQLChatList;
+
 public class ChatListManager {
 	final public static int CHAT_HEIGHT = 50;
 	
 	// 부모 채팅 매니저 객체
 	ChatUIManager owner;
+<<<<<<< HEAD
+=======
+	private User user = null;
+	private UserEdit userEdit = new UserEdit();
+	private SQLChatList sqlChatList = null;
+	// 어댑터 객체
+	private ChatListAdapter chatListAdapter = new ChatListAdapter(this);
+>>>>>>> refs/heads/feature-connect-chatlist-db
 	
 	// chatListUI 객체
 	private JPanel chatListUI = MainUIManager.containerUIFactory.createJPanel();
@@ -40,7 +52,10 @@ public class ChatListManager {
 		// 채팅 리스트 스크롤팬 추가
 		chatListScrollPane = new JScrollPane(chatListPanel);
 		
-		setChatList();
+		// 로그인 이후 실행시키기
+		//setChatList();
+		
+		//chatListAdapter.
 		
 		chatListUI.add(chatListScrollPane);			// 화면에 채팅 리스트 스크롤팬 추가
 		chatListScrollPane.setLayout(new ScrollPaneLayout()); 	// 채팅 리스트 스크롤팬 배치관리자 설정
@@ -52,17 +67,29 @@ public class ChatListManager {
 		chatListUI.setVisible(true);
 	}
 	
-	private void setChatList() {
+	public void setChatList(User user) {
+		this.user = user;
+		this.userName.setText(user.getUserNickName());
 		chatListPanel.setLayout(new BoxLayout(chatListPanel, BoxLayout.Y_AXIS));
 		chatListPanel.setBackground(new Color(0x003A2F0B));
+		//chatListAdapter.setChatList();
 		// 채팅 리스트 패널에 채팅 패널들 추가
+<<<<<<< HEAD
 		for (int index = 0; index < owner.chatAdapter.size(); index++) {
+=======
+		for (int index = 0; index < user.getUserRoomCount()/*chatListAdapter.size()*/; index++) {
+			this.sqlChatList = userEdit.getUserChatList(user.getRoomName(index));
+>>>>>>> refs/heads/feature-connect-chatlist-db
 			JPanel chatPanel = new JPanel();
 			chatPanel.setLayout(null);
 			chatPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, CHAT_HEIGHT)); // 각 패널의 크기 지정
 			chatPanel.setBackground(new Color(0x00FBF2EF));
 			
+<<<<<<< HEAD
 			JLabel chatRoomName = new JLabel(owner.chatAdapter.getRoomName(index));
+=======
+			JLabel chatRoomName = new JLabel(sqlChatList.getRoomName());
+>>>>>>> refs/heads/feature-connect-chatlist-db
 			chatRoomName.setBounds(0, 0, ChatUIManager.CHATLIST_WIDTH / 2, CHAT_HEIGHT);
 			JButton charRoomStore = new JButton("기록");
 			charRoomStore.setBounds(

@@ -22,7 +22,7 @@ public class ChatUIManager {
 	public JPanel getUI() { return chatUI; }
 	
 	// 자식 컴포넌트
-	private ChatListManager chatListManger = new ChatListManager(this);
+	public ChatListManager chatListManger = new ChatListManager(this);
 	private JPanel enterUI = MainUIManager.containerUIFactory.createJPanel();
 	private JButton addFileButton = MainUIManager.componentUIFactory.createJButton("파일 추가");
 	private JButton addEmojiButton = MainUIManager.componentUIFactory.createJButton("이모지 추가");
@@ -67,6 +67,10 @@ public class ChatUIManager {
 		setExtra();
 		
 		chatUI.setVisible(true);
+	}
+	
+	public ChatListManager getChatListManager() {
+		return chatListManger;
 	}
 	
 	// 추가 기능 설정

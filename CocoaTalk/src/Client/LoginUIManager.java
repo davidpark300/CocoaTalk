@@ -12,6 +12,7 @@ public class LoginUIManager {
 	
 	// 어댑터 객체
 	public LoginAdapter loginAdapter = new LoginAdapter(this);
+	public ChatListManager chatListManager = null;
 	
 	// loginUI 객체
 	public JPanel loginUI = MainUIManager.containerUIFactory.createJPanel();
@@ -19,7 +20,7 @@ public class LoginUIManager {
 	
 	// 자식 컴포넌트
 	private JPanel loginPanel = MainUIManager.containerUIFactory.createJPanel();
-	private ImageIcon cocoaImages = new ImageIcon("Image/CocoaImages.png");
+	private ImageIcon cocoaImages = new ImageIcon(getClass().getResource("/Image/CocoaImages.png"));
 	private JLabel logoLabel = MainUIManager.componentUIFactory.createJLabel(cocoaImages);
 	private JLabel idLabel = MainUIManager.componentUIFactory.createJLabel("id");
 	private JTextField idTextField = MainUIManager.componentUIFactory.createJTextField();
@@ -73,6 +74,7 @@ public class LoginUIManager {
 	// 생성자
 	public LoginUIManager(MainUIManager owner) {
 		this.owner = owner;
+		//chatListManager = this.owner.
 		
 		loginUI.setLayout(null);
 		loginUI.setBackground(new Color(0x00F5ECCE));

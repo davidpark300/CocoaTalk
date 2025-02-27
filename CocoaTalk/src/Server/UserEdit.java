@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class UserEdit {
 	private DatabaseConfig config = new DatabaseConfig();
@@ -15,13 +21,15 @@ public class UserEdit {
 	private String url = "jdbc:mysql://127.0.0.1:3306/cocoatalkdb?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8";
 	private String SQLID;
 	private String SQLPW;
+	private User user = null;
+	private SQLChatList sqlChatList = null;
 
 	public UserEdit() {
 		SQLID = config.getSQLID();
 		SQLPW = config.getSQLPW();
 	}
-	
-	public int loginUser(String userID, String userPW) {
+
+	public User loginUser(String userID, String userPW) {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
@@ -39,13 +47,26 @@ public class UserEdit {
 			while (rs.next()) {
 				String ID = rs.getString("ID");
 				String PW = rs.getString("PW");
-				String nickName = rs.getNString("NickName");
-				// JSON 파싱하는 구분 필요
-				return 1;
+				String nickName = rs.getString("NickName");
+				System.out.println(ID + "," + PW + "," + nickName);
+				user = new User(ID, PW, nickName);
+				// JSON 데이터타입
+				String jsonKey = rs.getString("RoomKey");
+				JSONParser parser = new JSONParser();
+				JSONObject jsonObject = (JSONObject) parser.parse(jsonKey);
+				JSONArray keyArray = (JSONArray) jsonObject.get("key");
+				for (Object key : keyArray) {
+					user.setUserRoomKey(key.toString());
+					// System.out.println((String) key);
+				}
+				return user;
 			}
 		} catch (SQLException e) {
 			// TODO: handle exception
-			System.out.println("SQL 구문 에러");
+			System.out.println("로그인 SQL 구문 에러");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			// 6. 자원 해제
 			try {
@@ -64,7 +85,7 @@ public class UserEdit {
 				e.printStackTrace();
 			}
 		}
-		return 0;
+		return null;
 	}
 
 	public void registerUser(User dto) {
@@ -112,49 +133,39 @@ public class UserEdit {
 					pstmt.close();
 				} catch (SQLException e) {
 					// TODO: handle exception
-					e.printStackTrace();
+					System.out.println("회원가입 SQL 구문 에러");
 				}
 			}
 		}
 	}
 
-	public ArrayList<User> selectList() {
-		// 1. JDBC Driver 로딩
+	public SQLChatList getUserChatList(String key) {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			// TODO: handle exception
+			System.out.println("JDBC 드라이버 불러오기 실패");
 		}
+		String sql = "select * from chatting_room_list where roomkey ='" + key + "'";
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		ArrayList<User> list = null; // 결과 데이터를 담을 배열
 		try {
-			// 2. DB 서버 연결
 			conn = DriverManager.getConnection(url, SQLID, SQLPW);
-
-			// 3. SQL 실행 통로 형성
 			stmt = conn.createStatement();
-
-			// 4. SQL 실행 요청 및 겨로가 받기
-			// CUD : excuteUpdate(sql) : int
-			// R : excuteQuery(sql) : ResultSet
-			String sql = "select * from logintb";
 			rs = stmt.executeQuery(sql);
-
-			// 5. SQL 결과 처리
-			list = new ArrayList<>();
 			while (rs.next()) {
-				String userID = rs.getString("id"); // select index 번호는 1번부터
-				// String userPW = rs.getString("pw");
-				String userPW = rs.getString(2);
-				String nickname = rs.getString("nickname");
-				User dto = new User(userID, userPW, nickname);
-
-				list.add(dto);
+				String roomKey = rs.getString("RoomKey");
+				String roomName = rs.getString("RoomName");
+				int roomMember = rs.getInt("RoomMember");
+				String roomSummary = rs.getString("RoomSummary");
+				System.out.println(roomKey + "," + roomName + "," + roomMember);
+				sqlChatList = new SQLChatList(roomKey, roomName, roomMember, roomSummary);
+				return sqlChatList;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			// TODO: handle exception
+			System.out.println("채팅방 리스트 SQL 구문 에러");
 		} finally {
 			// 6. 자원 해제
 			try {
@@ -173,38 +184,6 @@ public class UserEdit {
 				e.printStackTrace();
 			}
 		}
-		return list;
-	}
-
-	
-	public User selectUser(String userID) {
-		// 1. JDBC Driver 로딩
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		String sql = "select * from logintb where id ='" + userID + "'";
-		try {
-			Connection conn = DriverManager.getConnection(url, SQLID, SQLPW);
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				String ID = rs.getString(1);
-				String PW = rs.getString("pw");
-				String nickName = rs.getString(3);
-				return new User(ID, PW, nickName);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null; // 찾은 유저가 없는 경우 null 반환
-	}
-
-	
-	public void printUserList(ArrayList<User> list) {
-		for (User dto : list) {
-			System.out.println(dto);
-		}
+		return null;
 	}
 }
