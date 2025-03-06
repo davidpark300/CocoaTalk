@@ -30,7 +30,7 @@ public class ChatUIManager {
 	private JTextField enterTextField = MainUIManager.componentUIFactory.createJTextField();
 	private JButton addSendButton = MainUIManager.componentUIFactory.createJButton("보내기");
 	
-	private ViewerUIManager viewerUIManager = new ViewerUIManager(this);
+	public ViewerUIManager viewerUIManager = new ViewerUIManager(this);
 	
 	// 생성자
 	public ChatUIManager(MainUIManager owner) {

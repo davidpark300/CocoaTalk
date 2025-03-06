@@ -76,6 +76,17 @@ public class ChatListManager {
 			chatPanel.setLayout(null);
 			chatPanel.setPreferredSize(new Dimension(ChatUIManager.CHATLIST_WIDTH, CHAT_HEIGHT)); // 각 패널의 크기 지정
 			chatPanel.setBackground(new Color(0x00FBF2EF));
+			final int roomIndex = index;
+			chatPanel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(roomIndex);
+					owner.chatAdapter.setRoomIndex(roomIndex);
+					owner.renew();
+					owner.chatUI.revalidate();
+					owner.chatUI.repaint();			            
+				}
+			});
 			
 			JLabel chatRoomName = new JLabel(owner.chatAdapter.getRoomName(index));
 			chatRoomName.setBounds(0, 0, ChatUIManager.CHATLIST_WIDTH / 2, CHAT_HEIGHT);

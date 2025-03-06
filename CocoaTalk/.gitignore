@@ -123,6 +123,6 @@ $RECYCLE.BIN/
 config.properties
 
 # classpath edit
-.classpath
+*.classpath
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java

@@ -48,7 +48,7 @@ public class UserEdit {
 				String ID = rs.getString("ID");
 				String PW = rs.getString("PW");
 				String nickName = rs.getString("NickName");
-				System.out.println(ID + "," + PW + "," + nickName);
+				//System.out.println(ID + "," + PW + "," + nickName);
 				user = new User(ID, PW, nickName);
 				// JSON 데이터타입
 				String jsonKey = rs.getString("RoomKey");
@@ -162,7 +162,7 @@ public class UserEdit {
 				String roomName = rs.getString("RoomName");
 				int roomMember = rs.getInt("RoomMember");
 				String roomSummary = rs.getString("RoomSummary");
-				System.out.println(roomKey + "," + roomName + "," + roomMember);
+				//System.out.println(roomKey + "," + roomName + "," + roomMember);
 				sqlChatList = new SQLChatList(roomKey, roomName, roomMember, roomSummary);
 				return sqlChatList;
 			}
