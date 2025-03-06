@@ -125,4 +125,6 @@ config.properties
 # classpath edit
 .classpath
 
+# modulepath edit
+.modulepath
 # End of https://www.toptal.com/developers/gitignore/api/windows,eclipse,java
